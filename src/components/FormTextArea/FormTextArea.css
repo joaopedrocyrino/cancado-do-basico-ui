@@ -1,0 +1,40 @@
+.fta-field {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--label-secondary);
+}
+
+.fta-field textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  margin-top: 5px;
+  padding: 11px 13px;
+  background: var(--bg-secondary);
+  border: 1.5px solid transparent;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--label-primary);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fta-field textarea:focus {
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.14);
+  outline: none;
+}
+
+[data-theme='dark'] .fta-field textarea:focus {
+  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.22);
+}
+
+@media (min-width: 600px) {
+  .fta-field textarea {
+    padding: 8px 11px;
+    font-size: 0.875rem;
+    border-radius: 10px;
+  }
+}

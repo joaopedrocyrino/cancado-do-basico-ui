@@ -1,0 +1,81 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+# Cancel any in-progress run for the same branch so rapid pushes don't pile up.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    # Skip the version-bump commit the bot pushes back to main — otherwise
+    # every release would trigger another release.
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write   # push version-bump commit + tag
+
+    steps:
+      # ── Checkout ────────────────────────────────────────────────────────────
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── Setup pnpm ──────────────────────────────────────────────────────────
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      # ── Setup Node ──────────────────────────────────────────────────────────
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      # ── Install ─────────────────────────────────────────────────────────────
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # ── Validate ────────────────────────────────────────────────────────────
+      - name: Type-check
+        run: pnpm typecheck
+
+      # ── Build ───────────────────────────────────────────────────────────────
+      - name: Build library
+        run: pnpm build
+
+      # ── Bump version (not committed yet) ────────────────────────────────────
+      # Writes the new version to package.json in-memory only.
+      # We commit AFTER a successful publish so a publish failure never
+      # wastes a version number.
+      - name: Bump patch version
+        id: version
+        run: |
+          npm version patch --no-git-tag-version
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Bumping to v$VERSION"
+
+      # ── Publish to npm ──────────────────────────────────────────────────────
+      # This runs BEFORE the git commit. If it fails, nothing is persisted
+      # and the next push will retry the same version.
+      - name: Publish to npm registry
+        run: pnpm publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # ── Commit & tag (only reached if publish succeeded) ────────────────────
+      - name: Commit version bump and push tag
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json
+          git commit -m "chore: release v${{ steps.version.outputs.version }} [skip ci]"
+          git tag "v${{ steps.version.outputs.version }}"
+          git push origin main --follow-tags
