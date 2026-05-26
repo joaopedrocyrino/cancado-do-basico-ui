@@ -66,7 +66,12 @@ jobs:
         run: |
           NPM_USER="$(npm whoami)"
           echo "Authenticated to npm as $NPM_USER"
-          npm access list packages "$NPM_USER" --json
+          PACKAGE_NAME="$(node -p "require('./package.json').name")"
+          if npm view "$PACKAGE_NAME" version >/dev/null 2>&1; then
+            echo "$PACKAGE_NAME already exists on npm."
+          else
+            echo "$PACKAGE_NAME is not visible on npm yet. Publish will create it if this token is allowed to publish new packages."
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
