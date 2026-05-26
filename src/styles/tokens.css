@@ -42,19 +42,32 @@
   --color-gray6:  #f2f2f7;
 
   /* Semantic */
-  --color-link:    var(--color-blue);
+  --color-accent:  var(--color-blue);
+  --color-link:    var(--color-accent);
   --color-error:   var(--color-red);
   --color-success: var(--color-green);
+
+  /* Glass surfaces — translucent versions of bg-primary/bg-elevated for cards, modals, sidebars. */
+  --surface-glass:        rgba(255, 255, 255, 0.78);
+  --surface-glass-soft:   rgba(255, 255, 255, 0.62);
+  --surface-glass-strong: rgba(255, 255, 255, 0.92);
+  --surface-edge:         rgba(255, 255, 255, 0.45);
+  --surface-edge-soft:    rgba(255, 255, 255, 0.30);
+  --surface-highlight:    rgba(255, 255, 255, 0.65);
+  --surface-scrim:        rgba(0, 0, 0, 0.32);
+  --surface-shadow-1:     0 1px 4px rgba(0, 0, 0, 0.06);
+  --surface-shadow-2:     0 4px 20px rgba(0, 0, 0, 0.07);
+  --surface-shadow-3:     0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
 [data-theme='dark'] {
   color-scheme: dark;
 
-  /* Backgrounds */
-  --bg-primary:   #000000;
-  --bg-secondary: #1c1c1e;
-  --bg-tertiary:  #2c2c2e;
-  --bg-elevated:  #2c2c2e;
+  /* Backgrounds — deepened from Apple's iOS spec so dark mode actually reads as dark. */
+  --bg-primary:   #050507;   /* near-black floor (OLED-friendly) */
+  --bg-secondary: #0e0e10;   /* page background — was #1c1c1e, now ~5x darker perceptually */
+  --bg-tertiary:  #18181b;   /* opaque card / elevated surface */
+  --bg-elevated:  #18181b;
 
   /* Labels */
   --label-primary:   #ffffff;
@@ -89,10 +102,36 @@
   --color-gray6:  #1c1c1e;
 
   /* Semantic */
-  --color-link:    var(--color-blue);
+  --color-accent:  var(--color-blue);
+  --color-link:    var(--color-accent);
   --color-error:   var(--color-red);
   --color-success: var(--color-green);
+
+  /* Glass surfaces — dark variants.
+     Page sits at bg-secondary (#1c1c1e). Each surface step lifts above with a brighter
+     translucent gray: gray5 (#2c2c2e) for cards/sidebars, gray4 (#3a3a3c) for modals/menus. */
+  --surface-glass:        rgba(44, 44, 46, 0.82);    /* gray5 — one elevation above page */
+  --surface-glass-soft:   rgba(44, 44, 46, 0.62);
+  --surface-glass-strong: rgba(58, 58, 60, 0.92);    /* gray4 — top elevation (modals, popovers, more-menu) */
+  --surface-edge:         rgba(255, 255, 255, 0.10);
+  --surface-edge-soft:    rgba(255, 255, 255, 0.06);
+  --surface-highlight:    rgba(255, 255, 255, 0.08);
+  --surface-scrim:        rgba(0, 0, 0, 0.55);
+  --surface-shadow-1:     0 1px 4px rgba(0, 0, 0, 0.2);
+  --surface-shadow-2:     0 4px 20px rgba(0, 0, 0, 0.3);
+  --surface-shadow-3:     0 8px 32px rgba(0, 0, 0, 0.5);
 }
+
+/* ─── Accent override ───────────────────────────────────────────────── */
+/* Set <html data-accent="…"> to switch the brand colour across the library.   */
+/* Six built-in options. Declared after the theme blocks so they always win.    */
+
+[data-accent='blue']    { --color-accent: var(--color-blue); }
+[data-accent='indigo']  { --color-accent: var(--color-indigo); }
+[data-accent='purple']  { --color-accent: var(--color-purple); }
+[data-accent='pink']    { --color-accent: var(--color-pink); }
+[data-accent='orange']  { --color-accent: var(--color-orange); }
+[data-accent='green']   { --color-accent: var(--color-green); }
 
 /* ─── Reset & base ──────────────────────────────────────────────────── */
 
@@ -142,23 +181,23 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: var(--color-blue);
-  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.15);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 15%, transparent);
 }
 
 [data-theme='dark'] input:focus,
 [data-theme='dark'] select:focus,
 [data-theme='dark'] textarea:focus {
-  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.25);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 25%, transparent);
 }
 
 /* ─── Buttons ───────────────────────────────────────────────────────── */
 
 button {
   border-radius: 22px;
-  border: 1px solid color-mix(in srgb, var(--color-blue) 35%, transparent);
-  background: color-mix(in srgb, var(--color-blue) 14%, transparent);
-  color: var(--color-blue);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 35%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+  color: var(--color-accent);
   padding: 10px 20px;
   font-size: 1rem;
   font-weight: 600;
@@ -168,7 +207,7 @@ button {
 }
 
 button:hover:not(:disabled) {
-  background-color: color-mix(in srgb, var(--color-blue) 20%, transparent);
+  background-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
 }
 
 button:disabled {
@@ -177,37 +216,6 @@ button:disabled {
 }
 
 button:focus-visible {
-  outline: 2px solid var(--color-blue);
+  outline: 2px solid var(--color-accent);
   outline-offset: 2px;
-}
-
-/* ─── Theme toggle ──────────────────────────────────────────────────── */
-
-.theme-toggle {
-  display: flex;
-  gap: 4px;
-  padding: 3px;
-  background: rgba(120, 120, 128, 0.1);
-  border-radius: 10px;
-}
-
-.theme-toggle-btn {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 6px;
-  border: none;
-  border-radius: 7px;
-  background: transparent;
-  font-size: 0.875rem;
-  color: var(--label-secondary);
-  cursor: pointer;
-  transition: background-color 0.12s ease, color 0.12s ease;
-}
-
-.theme-toggle-btn[aria-pressed='true'] {
-  background: var(--bg-primary);
-  color: var(--label-primary);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }

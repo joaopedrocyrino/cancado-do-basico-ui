@@ -2,6 +2,12 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { AppShell } from './AppShell';
 import { ThemeProvider } from '../../context/ThemeContext';
 import { ToastProvider } from '../../context/ToastContext';
+import { LangProvider, useLang, type LanguageOption } from '../../context/LangContext';
+
+const LANGUAGES: LanguageOption[] = [
+  { code: 'pt-BR', label: 'PT', flag: '🇧🇷', ariaLabel: 'Português (Brasil)' },
+  { code: 'en', label: 'EN', flag: '🇺🇸', ariaLabel: 'English' },
+];
 
 const meta: Meta<typeof AppShell> = {
   title: 'Components/AppShell',
@@ -11,7 +17,9 @@ const meta: Meta<typeof AppShell> = {
     Story => (
       <ThemeProvider>
         <ToastProvider>
-          <Story />
+          <LangProvider defaultLang="pt-BR">
+            <Story />
+          </LangProvider>
         </ToastProvider>
       </ThemeProvider>
     ),
@@ -43,6 +51,34 @@ const SettingsIcon = () => (
   </svg>
 );
 
+const COPY: Record<string, { heading: string; body: string; hint: string }> = {
+  'pt-BR': {
+    heading: 'Conteúdo da página',
+    body: 'Aqui é onde o conteúdo da sua página é renderizado (via children ou Outlet do router).',
+    hint: 'Use o seletor de idioma no rodapé da sidebar para alternar entre PT-BR e EN.',
+  },
+  en: {
+    heading: 'Page content',
+    body: 'This is where your page content renders (via children or router Outlet).',
+    hint: 'Use the language toggle in the sidebar footer to switch between PT-BR and EN.',
+  },
+};
+
+function StoryContent() {
+  const { lang } = useLang();
+  const copy = COPY[lang] ?? COPY.en;
+  return (
+    <div style={{ padding: 24, color: 'var(--label-primary)' }}>
+      <h2>{copy.heading}</h2>
+      <p>{copy.body}</p>
+      <p style={{ color: 'var(--label-secondary)', fontSize: '0.875rem' }}>{copy.hint}</p>
+      <p style={{ color: 'var(--label-secondary)', fontSize: '0.75rem' }}>
+        <code>useLang().lang</code> → <strong>{lang}</strong>
+      </p>
+    </div>
+  );
+}
+
 export const Default: Story = {
   render: () => (
     <AppShell
@@ -58,14 +94,34 @@ export const Default: Story = {
       moreItems={[
         { href: '/settings', label: 'Settings', icon: <SettingsIcon /> },
       ]}
+      languages={LANGUAGES}
       renderLink={(href, className, children) => (
         <a href={href} className={className}>{children}</a>
       )}
     >
-      <div style={{ padding: 24, color: 'var(--label-primary)' }}>
-        <h2>Page Content</h2>
-        <p>This is where your page content renders (via children or router Outlet).</p>
-      </div>
+      <StoryContent />
+    </AppShell>
+  ),
+};
+
+export const WithoutLanguageToggle: Story = {
+  name: 'Without language toggle',
+  render: () => (
+    <AppShell
+      logoText="MyApp"
+      currentPath="/dashboard"
+      tabItems={[
+        { href: '/dashboard', label: 'Dashboard', icon: <CalendarIcon /> },
+        { href: '/users', label: 'Users', icon: <UsersIcon /> },
+      ]}
+      sidebarItems={[
+        { href: '/settings', label: 'Settings', icon: <SettingsIcon /> },
+      ]}
+      renderLink={(href, className, children) => (
+        <a href={href} className={className}>{children}</a>
+      )}
+    >
+      <StoryContent />
     </AppShell>
   ),
 };

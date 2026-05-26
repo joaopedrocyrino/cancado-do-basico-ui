@@ -29,13 +29,13 @@
 }
 
 .fi-field input:not([type='checkbox']):focus {
-  border-color: var(--color-blue);
-  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.14);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 14%, transparent);
   outline: none;
 }
 
 [data-theme='dark'] .fi-field input:not([type='checkbox']):focus {
-  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.22);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 22%, transparent);
 }
 
 @media (min-width: 600px) {

@@ -16,6 +16,9 @@
   flex: 1;
   overflow: hidden;
   padding-bottom: calc(60px + env(safe-area-inset-bottom));
+  background: var(--bg-primary);
+  color: var(--label-primary);
+  transition: background-color 0.18s ease, color 0.18s ease;
 }
 
 /* ─── Bottom tab bar — mobile only ───────────────────────────────────────── */
@@ -28,16 +31,11 @@
   right: 0;
   height: calc(60px + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
-  background: rgba(255, 255, 255, 0.82);
+  background: var(--bg-secondary);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-top: 1px solid rgba(60, 60, 67, 0.14);
+  border-top: 1px solid var(--separator);
   z-index: 1000;
-}
-
-[data-theme='dark'] .app-tab-bar {
-  background: rgba(0, 0, 0, 0.82);
-  border-top-color: rgba(84, 84, 88, 0.45);
 }
 
 .app-tab-item {
@@ -71,10 +69,10 @@
 }
 
 .app-tab-item.active .app-tab-icon {
-  background-color: color-mix(in srgb, var(--color-blue) 16%, transparent);
+  background-color: color-mix(in srgb, var(--color-accent) 16%, transparent);
 }
 
-.app-tab-item.active { color: var(--color-blue); }
+.app-tab-item.active { color: var(--color-accent); }
 
 .app-tab-label {
   font-size: 0.625rem;
@@ -100,23 +98,17 @@
   position: fixed;
   bottom: calc(60px + env(safe-area-inset-bottom) + 8px);
   right: 8px;
-  background: rgba(255, 255, 255, 0.88);
+  background: var(--bg-secondary);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(60, 60, 67, 0.12);
+  border: 1px solid var(--separator);
   border-radius: 14px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
+  box-shadow: var(--surface-shadow-3);
   z-index: 1001;
   min-width: 180px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-}
-
-[data-theme='dark'] .app-more-menu {
-  background: rgba(28, 28, 30, 0.92);
-  border-color: rgba(84, 84, 88, 0.4);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 .app-more-item {
@@ -140,7 +132,7 @@
 
 .app-more-item:last-child { border-bottom: none; }
 .app-more-item:hover { background-color: var(--fill-primary); }
-.app-more-item.active { color: var(--color-blue); }
+.app-more-item.active { color: var(--color-accent); }
 
 /* ─── Desktop ─────────────────────────────────────────────────────────────── */
 
@@ -159,10 +151,10 @@
     flex-shrink: 0;
     height: 100dvh;
     padding: 0 10px;
-    background: rgba(255, 255, 255, 0.78);
+    background: var(--bg-secondary);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border-right: 1px solid rgba(60, 60, 67, 0.12);
+    border-right: 1px solid var(--separator);
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: none;
@@ -173,10 +165,7 @@
 
   .app-sidebar::-webkit-scrollbar { display: none; }
 
-  [data-theme='dark'] .app-sidebar {
-    background: rgba(18, 18, 18, 0.82);
-    border-right-color: rgba(84, 84, 88, 0.35);
-  }
+  /* Dark surface flips through --surface-glass; no per-theme override needed. */
 
   .app-sidebar-top {
     display: flex;
@@ -216,7 +205,7 @@
     padding: 0;
     border: none;
     border-radius: 8px;
-    background: rgba(120, 120, 128, 0.1);
+    background: var(--fill-quaternary);
     color: var(--label-secondary);
     cursor: pointer;
     transition: background-color 0.12s ease, color 0.12s ease,
@@ -267,8 +256,8 @@
   }
 
   .app-sidebar-link.active {
-    background: color-mix(in srgb, var(--color-blue) 12%, transparent);
-    color: var(--color-blue);
+    background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+    color: var(--color-accent);
     font-weight: 600;
   }
 
@@ -299,13 +288,9 @@
 
   .app-sidebar-divider {
     height: 1px;
-    background: rgba(60, 60, 67, 0.1);
+    background: var(--separator);
     margin: 6px 8px;
     flex-shrink: 0;
-  }
-
-  [data-theme='dark'] .app-sidebar-divider {
-    background: rgba(84, 84, 88, 0.3);
   }
 
   .app-sidebar-footer {
@@ -314,13 +299,9 @@
     gap: 2px;
     padding-bottom: max(16px, env(safe-area-inset-bottom));
     flex-shrink: 0;
-    border-top: 1px solid rgba(60, 60, 67, 0.08);
+    border-top: 1px solid var(--separator);
     padding-top: 8px;
     margin-top: 8px;
-  }
-
-  [data-theme='dark'] .app-sidebar-footer {
-    border-top-color: rgba(84, 84, 88, 0.25);
   }
 
   .app-sidebar-toggles {

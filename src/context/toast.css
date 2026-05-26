@@ -55,14 +55,14 @@
 
 /* ─── Type accents ────────────────────────────────────────────────────────── */
 
-.toast-item--success { border-left: 3px solid #34c759; }
+.toast-item--success { border-left: 3px solid var(--color-green); }
 .toast-item--error   { border-left: 3px solid var(--color-red); }
-.toast-item--warn    { border-left: 3px solid #ff9f0a; }
+.toast-item--warn    { border-left: 3px solid var(--color-orange); }
 .toast-item--info    { border-left: 3px solid var(--color-blue); }
 
-.toast-item--success .toast-icon { color: #34c759; }
+.toast-item--success .toast-icon { color: var(--color-green); }
 .toast-item--error   .toast-icon { color: var(--color-red); }
-.toast-item--warn    .toast-icon { color: #ff9f0a; }
+.toast-item--warn    .toast-icon { color: var(--color-orange); }
 .toast-item--info    .toast-icon { color: var(--color-blue); }
 
 /* ─── Parts ───────────────────────────────────────────────────────────────── */

@@ -1,5 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { ThemeToggle } from '../ThemeToggle/ThemeToggle';
+import { LangToggle } from '../LangToggle/LangToggle';
+import type { LanguageOption } from '../../context/LangContext';
 import './AppShell.css';
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -39,6 +41,12 @@ export interface AppShellProps {
    * )}
    */
   renderLink?: (href: string, className: string, children: ReactNode) => ReactNode;
+  /**
+   * Available languages. When provided (and the app is wrapped in `<LangProvider>`),
+   * a built-in language toggle is rendered in the sidebar footer next to the ThemeToggle.
+   * If omitted or empty, no language toggle is shown.
+   */
+  languages?: LanguageOption[];
   children?: ReactNode;
 }
 
@@ -76,6 +84,7 @@ export function AppShell({
   moreLabel = 'More',
   currentPath,
   renderLink,
+  languages,
   children,
 }: AppShellProps) {
   const [moreOpen, setMoreOpen] = useState(false);
@@ -122,6 +131,7 @@ export function AppShell({
         <div className="app-sidebar-footer">
           {footer}
           <div className="app-sidebar-toggles">
+            {languages && languages.length > 0 ? <LangToggle languages={languages} /> : null}
             <ThemeToggle />
           </div>
         </div>

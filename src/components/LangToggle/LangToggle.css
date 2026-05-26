@@ -1,0 +1,49 @@
+/* ─── Language toggle ───────────────────────────────────────────────── */
+
+.lang-toggle {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  background: var(--surface-edge);;
+  border-radius: 10px;
+  justify-content: center;
+}
+
+.lang-toggle-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--label-secondary);
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+  font-family: inherit;
+}
+
+.lang-toggle-btn:hover {
+  color: var(--label-primary);
+}
+
+.lang-toggle-btn[aria-pressed='true'] {
+  background: var(--bg-primary);
+  color: var(--label-primary);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.lang-toggle-flag {
+  font-size: 0.875rem;
+  line-height: 1;
+}
+
+.lang-toggle-label {
+  line-height: 1;
+}

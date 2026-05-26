@@ -41,11 +41,9 @@ function mockFetch(start: Date, end: Date): Promise<AgendaEvent[]> {
   let id = seed(start.toISOString());
 
   while (cursor <= end) {
-    const dayOfWeek = cursor.getDay();
-    // Fewer events on weekends
-    const count = dayOfWeek === 0 || dayOfWeek === 6
-      ? Math.floor(seed(String(id)) % 2)
-      : 2 + (seed(String(id + 1)) % 4);
+    // const dayOfWeek = cursor.getDay();
+    // // Fewer events on weekends
+    const count = 2 + (seed(String(id + 1)) % 32);
 
     for (let i = 0; i < count; i++) {
       id++;

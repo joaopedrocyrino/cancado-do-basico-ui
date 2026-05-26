@@ -2,11 +2,14 @@
 import './styles/tokens.css';
 
 // ── Contexts ──────────────────────────────────────────────────────────────────
-export { ThemeProvider, useTheme } from './context/ThemeContext';
-export type { ThemeOverride } from './context/ThemeContext';
+export { ThemeProvider, useTheme, BRAND_ACCENTS } from './context/ThemeContext';
+export type { ThemeOverride, BrandAccent, ThemeProviderProps } from './context/ThemeContext';
 
 export { ToastProvider, useToast } from './context/ToastContext';
 export type { ToastApi, ToastType } from './context/ToastContext';
+
+export { LangProvider, useLang } from './context/LangContext';
+export type { LangProviderProps, LanguageOption } from './context/LangContext';
 
 // ── Components ────────────────────────────────────────────────────────────────
 
@@ -47,6 +50,12 @@ export { ModalPhoneInput } from './components/ModalPhoneInput/ModalPhoneInput';
 export type { ModalPhoneInputProps, PhoneEntry } from './components/ModalPhoneInput/ModalPhoneInput';
 
 export { ThemeToggle } from './components/ThemeToggle/ThemeToggle';
+
+export { LangToggle } from './components/LangToggle/LangToggle';
+export type { LangToggleProps } from './components/LangToggle/LangToggle';
+
+export { LoginPage } from './components/LoginPage/LoginPage';
+export type { LoginPageProps, LoginPageLabels } from './components/LoginPage/LoginPage';
 
 export { Agenda } from './components/Agenda/Agenda';
 export type { AgendaProps, AgendaEvent, AgendaLabels, CalView } from './components/Agenda/index';

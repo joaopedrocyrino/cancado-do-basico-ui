@@ -1,4 +1,5 @@
 import { useTheme, type ThemeOverride } from '../../context/ThemeContext';
+import './ThemeToggle.css'
 
 const OPTIONS: { value: ThemeOverride; icon: string; label: string }[] = [
   { value: 'light', icon: '☀', label: 'Light' },
