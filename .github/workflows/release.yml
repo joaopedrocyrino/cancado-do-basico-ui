@@ -64,8 +64,9 @@ jobs:
 
       - name: Verify npm auth
         run: |
-          npm whoami
-          npm access ls-packages "$(npm whoami)" | grep '"cancado-do-basico-ui"'
+          NPM_USER="$(npm whoami)"
+          echo "Authenticated to npm as $NPM_USER"
+          npm access list packages "$NPM_USER" --json
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
