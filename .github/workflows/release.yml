@@ -62,11 +62,18 @@ jobs:
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
           echo "Bumping to v$VERSION"
 
+      - name: Verify npm auth
+        run: |
+          npm whoami
+          npm access ls-packages "$(npm whoami)" | grep '"cancado-do-basico-ui"'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       # ── Publish to npm ──────────────────────────────────────────────────────
       # This runs BEFORE the git commit. If it fails, nothing is persisted
       # and the next push will retry the same version.
       - name: Publish to npm registry
-        run: pnpm publish --access public --no-git-checks
+        run: pnpm publish --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

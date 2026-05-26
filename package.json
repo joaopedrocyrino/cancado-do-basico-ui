@@ -14,6 +14,10 @@
     },
     "./styles": "./dist/style.css"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "files": [
     "dist",
     "README.md"
